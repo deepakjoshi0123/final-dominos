@@ -6,6 +6,14 @@ import Fillings from '../../components/PizzaMenu/Fillings/Fillings';
 import Cart from '../../components/cart/cart'
 import classes from '../PizzaList/pizzaList.css'
 
+let comp={
+    extraCheese: 0,
+    ExtraOnion : 0,
+    ExtraTomato : 0 ,
+    Morzilla : 0
+
+}
+
 let Filling ={
     extraCheese: 0,
     ExtraOnion : 0,
@@ -64,6 +72,7 @@ pizzaSize = (pizzaType,event)=>
         stfil[fil]=1;
         this.setState({ExtraFillings: stfil})
         Filling[fil]= 1 ;   
+        comp[fil]=1;
     }
 
     updatePurchaseState = (ingredients) => {
@@ -169,13 +178,20 @@ pizzaSize = (pizzaType,event)=>
                console.log(this.state.orderCart , "updated state") 
           }
     }
+            
+    compareobj(obj){
+        if(obj.extraCheese === comp.extraCheese && obj.ExtraOnion === comp.ExtraOnion && obj.ExtraTomato === comp.ExtraTomato && obj.Morzilla === comp.Morzilla)
+           return true;
+        else 
+           return false;    
+    }
 
     addIngredientHandler = ( type ) => {
              
              let reporder = this.state.orderCart.filter(order =>  order.name.localeCompare( type )===0  )
              let real = this.state.orderCart.filter(order =>  order.name.localeCompare( type )!== 0)
-
-             if(reporder[0]!==undefined)
+            // console.log(reporder[0].fillings)
+             if(reporder[0]!==undefined && this.compareobj(reporder[0].fillings)===true)
               {
                   reporder[0].qty = reporder[0].qty + 1 ;
                

@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 export default function buildControl(props) { 
 
     const classes = useStyles();
-  return(  <Card  className={classes.root} >
+    return(  <Card  className={classes.root} >
          <CardActionArea>
         <CardMedia
           className={classes.media}
