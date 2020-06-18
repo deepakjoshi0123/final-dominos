@@ -9,19 +9,21 @@
 }
 
 .first {
-   overflow: scroll;
+    scrollbar-width: none;
+    overflow: scroll;
     padding-top: 70px;
-    width: 600px;
+    width: 60%;
     float: left;
     height: 700px;
    
 }
 
+
 .second {
     margin-left: 50px;
     margin-top: 100px;
     text-align: center;
-    width: 400px;
+    width: 35%;
     float: left;
     height: 450px;
     background-color: rgba(156, 153, 153, 0);

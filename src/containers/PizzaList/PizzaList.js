@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
 import BuildControls from '../../components/PizzaMenu/BuildControls/BuildControls';
-import Modal from '../../components/UI/Modal/Modal';
 import Fillings from '../../components/PizzaMenu/Fillings/Fillings';
 import Cart from '../../components/cart/cart'
 import classes from '../PizzaList/pizzaList.css'
@@ -86,9 +85,6 @@ pizzaSize = (pizzaType,event)=>
         this.setState( { purchasable: sum > 0 } );
     }
 
-    calPriceUpd(){
-
-    }
  
      compare = (a, b) => {
        
@@ -312,11 +308,11 @@ pizzaSize = (pizzaType,event)=>
     }
  
     render () {
-       
+        //show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}
         return (
             <Aux>
-                <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
-                    <Fillings 
+                <Fillings 
+                        show={this.state.purchasing}
                         closeModel={this.purchaseCancelHandler}
                         key = {this.state.ingredients}
                         AddFill={this.AddFillings}
@@ -328,7 +324,7 @@ pizzaSize = (pizzaType,event)=>
                         price={this.state.totalPrice}
                         purchaseCancelled={this.purchaseCancelHandler}
                         purchaseContinued={this.purchaseContinueHandler} />
-                </Modal>  
+             
                <div className={classes.screen}>
                <div className={classes.container}>    
                 <div className={classes.first}>     
