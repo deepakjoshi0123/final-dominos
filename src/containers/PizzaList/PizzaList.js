@@ -147,7 +147,8 @@ pizzaSize = (pizzaType,event)=>
          }
          
          Order[0].price =Order[0].price - updatedPrice - INGREDIENT_PRICES[Order[0].name] ; 
-         let newPrice = this.state.CartPrice - Order[0].price; 
+         console.log(Order[0].price)
+         let newPrice = Order[0].price; 
          this.setState({CartPrice:newPrice})
 
             console.log(orderid , Order[0].qty)
@@ -177,9 +178,25 @@ pizzaSize = (pizzaType,event)=>
              if(reporder[0]!==undefined)
               {
                   reporder[0].qty = reporder[0].qty + 1 ;
+               
+                  // price 
+
+                  let updatedPrice = 0;
+                  for(let key in reporder[0].fillings)
+                  {
+                   
+                      if(reporder[0].fillings[key]===1)
+                      {
+                        updatedPrice = updatedPrice + ExtraFillings[key]; 
+                      }
+                  }
+                  
+                  reporder[0].price = reporder[0].price + updatedPrice + INGREDIENT_PRICES[reporder[0].name] ; 
+                   let ltprc= this.state.CartPrice + updatedPrice + INGREDIENT_PRICES[reporder[0].name]
+
                   real.push(reporder[0])
                   real.sort(this.compare)
-                  this.setState({orderCart:real})
+                  this.setState({orderCart:real , CartPrice:ltprc})
                   return ;
               }
              console.log("creating this order")
@@ -255,7 +272,7 @@ pizzaSize = (pizzaType,event)=>
             }
         }
       
-        let prc = this.state.CartPrice - updatedPrice -INGREDIENT_PRICES[Order[0].name];
+        let prc = this.state.CartPrice - updatedPrice -INGREDIENT_PRICES[Order[0].name]*Order[0].qty;
         let updatedOrder = this.state.orderCart.filter(order => order.OrderId !==id) ; 
         this.setState( { orderCart : updatedOrder , CartPrice:prc} );
     }
