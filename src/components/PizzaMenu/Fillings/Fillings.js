@@ -37,6 +37,7 @@ export default function Fillings( props ) {
          
     return (
         <Aux>
+            {console.log(props.show)}
             <Modal
              open={props.show}
              close={props.show}

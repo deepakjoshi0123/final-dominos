@@ -1,0 +1,7 @@
+> change name of buildcontrols       - done 
+> show={this.state.purchasing} is purchase   - done 
+> buildcontrols should not use deeper component  - done 
+> state should be maintained in buildcontrols itself  - done 
+> meta data in menu list should comes from props   - ?????
+
+

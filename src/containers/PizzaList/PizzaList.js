@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
-import BuildControls from '../../components/PizzaMenu/BuildControls/BuildControls';
+import PizzaMneu from '../../components/PizzaMenu/PizzaMenu/PizzaMenu';
 import Fillings from '../../components/PizzaMenu/Fillings/Fillings';
 import Cart from '../../components/cart/cart'
 import classes from '../PizzaList/pizzaList.css'
-
 
 // for filling the same order 
 
@@ -42,7 +41,8 @@ const ExtraFillings = {  // price of extra fillings
 
 class PizzaList extends Component { 
     state = {   
-
+         Type :['Large','Medium','Small']  // in future it will fetched from backend if we wants to change types 
+      ,
         ExtraFillings : {
             extraCheese: 0,
             ExtraOnion : 0,
@@ -59,8 +59,8 @@ class PizzaList extends Component {
             Tomato: 0,
         },
         // fillings to be added to pizza
-        purchasable: false,
-        purchasing: false,
+       
+       IsModalOpen: false,
     }
 
 pizzaSize = (pizzaType,event)=>
@@ -278,11 +278,11 @@ pizzaSize = (pizzaType,event)=>
     }
  // used in modal 
     purchaseHandler = () => {
-        this.setState({purchasing: true});
+        this.setState({IsModalOpen: true});
     }
 // used in modal closing 
     purchaseCancelHandler = () => {
-        this.setState({purchasing: false});
+        this.setState({IsModalOpen: false});
         let stfil = {...this.state.ExtraFillings}
         stfil.extraCheese=0;
         stfil.ExtraOnion=0;
@@ -296,8 +296,8 @@ pizzaSize = (pizzaType,event)=>
         return (
             <Aux>
                 <Fillings 
-                        show={this.state.purchasing}   // model open close
-                        closeModel={this.purchaseCancelHandler} // function to toggle purchasing 
+                        show={this.state.IsModalOpen}   // model open close
+                        closeModel={this.purchaseCancelHandler} // function to toggleIsModalOpen 
                         AddFill={this.AddFillings}  // change state of fillings {ExtraFillings} whichever is clicked and turn that into red 
                         ingredients={ExtraFillings} //  to show price of extra fillings 
                         fil={this.state.ExtraFillings} // to see which toppings is filled 
@@ -305,8 +305,9 @@ pizzaSize = (pizzaType,event)=>
                <div className={classes.screen}>
                <div className={classes.container}>    
                 <div className={classes.first}>     
-                <BuildControls
+                <PizzaMneu
                     key={this.state.ingredients}
+                    type={this.state.Type}
                     chooseSize={this.pizzaSize} // to change size of pizza 
                     ingredientAdded={this.addIngredientHandler}
                     ordered={this.purchaseHandler}
