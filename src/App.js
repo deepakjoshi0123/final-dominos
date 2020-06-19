@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import Toolbar from './components/Navigation/Toolbar/Toolbar'
 import PizzaList from './containers/PizzaList/PizzaList';
 import './App.css'
-import bgImg from'./assets/images/bgImg.jpg'
+import Aux from './hoc/Aux'
 class App extends Component {
   render () {
     return (
-      <div style={{ backgroundImage: `url(${bgImg})`}}>
+      <Aux>
         <Toolbar/>
         <PizzaList/>
-      </div>
+      </Aux>
     );
   }
 }

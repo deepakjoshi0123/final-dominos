@@ -1,23 +1,23 @@
 .screen{
-    background-color: red;
     width:100%
 }
 
 .container {
-    background-color: #ffcc33;
+   
     margin-left: 100px;
+    overflow: hidden;
 }
 
 .first {
     scrollbar-width: none;
     overflow: scroll;
     padding-top: 70px;
-    width: 60%;
+    width: 55%;
     float: left;
     height: 700px;
+    overflow: auto;
    
 }
-
 
 .second {
     margin-left: 50px;

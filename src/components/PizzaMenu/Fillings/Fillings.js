@@ -38,7 +38,6 @@ export default function Fillings( props ) {
     return (
         <Aux>
             <Modal
-            disableEnforceFocus
              open={props.show}
              close={props.show}
             >

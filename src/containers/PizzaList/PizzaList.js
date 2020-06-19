@@ -5,6 +5,9 @@ import Fillings from '../../components/PizzaMenu/Fillings/Fillings';
 import Cart from '../../components/cart/cart'
 import classes from '../PizzaList/pizzaList.css'
 
+
+// for filling the same order 
+
 let comp={
     extraCheese: 0,
     ExtraOnion : 0,
@@ -69,9 +72,9 @@ pizzaSize = (pizzaType,event)=>
     AddFillings=(fil)=> {
         let stfil={...this.state.ExtraFillings}
         stfil[fil]=1;
-        this.setState({ExtraFillings: stfil})
-        Filling[fil]= 1 ;   
-        comp[fil]=1;
+        this.setState({ExtraFillings: stfil})  // way to initiallise nested obj state 
+        Filling[fil]= 1 ;   // set to all 0 when modal is closed , so next time custom opens added get removed 
+        comp[fil]=1;  // for checking next order is same or diff {wheather to create the new order or inc qty }
     }
 
     updatePurchaseState = (ingredients) => {
@@ -301,41 +304,28 @@ pizzaSize = (pizzaType,event)=>
         stfil.ExtraTomato=0;
         stfil.Morzilla=0;
         this.setState({ExtraFillings:stfil})
-    }
-
-    purchaseContinueHandler = () => {
-        alert('You continue!');
-    }
+    }  
  
     render () {
         //show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}
         return (
             <Aux>
                 <Fillings 
-                        show={this.state.purchasing}
-                        closeModel={this.purchaseCancelHandler}
-                        key = {this.state.ingredients}
-                        AddFill={this.AddFillings}
-                        close={this.close}
-                        ingredientAdded={this.addIngredientHandler}
-                        ingredientRemoved={this.removeIngredientHandler}
-                        ingredients={ExtraFillings}
-                        fil={this.state.ExtraFillings}
-                        price={this.state.totalPrice}
-                        purchaseCancelled={this.purchaseCancelHandler}
-                        purchaseContinued={this.purchaseContinueHandler} />
-             
+                        show={this.state.purchasing}   // model open close
+                        closeModel={this.purchaseCancelHandler} // function to toggle purchasing 
+                        AddFill={this.AddFillings}  // change state of fillings {ExtraFillings} whichever is clicked and turn that into red 
+                        ingredients={ExtraFillings} //  to show price of extra fillings 
+                        fil={this.state.ExtraFillings} // to see which toppings is filled 
+                         />
                <div className={classes.screen}>
                <div className={classes.container}>    
                 <div className={classes.first}>     
                 <BuildControls
                     key={this.state.ingredients}
-                    chooseSize={this.pizzaSize}
+                    chooseSize={this.pizzaSize} // to change size of pizza 
                     ingredientAdded={this.addIngredientHandler}
-                    ingredientRemoved={this.removeIngredientHandler}
-                    purchasable={this.state.purchasable}  
                     ordered={this.purchaseHandler}
-                    price={this.state.totalPrice} />
+                   /> 
                 </div>
                 <div className={classes.second}>
                 <Cart
@@ -343,8 +333,6 @@ pizzaSize = (pizzaType,event)=>
                  del={this.del}
                  MyCart={this.state.orderCart}
                  delItem={this.delItem}
-                 purchasable={this.state.purchasable}
-                 ordered={this.purchaseHandler}
                  price={this.state.CartPrice}
                 />   
                 </div>

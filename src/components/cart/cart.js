@@ -20,9 +20,9 @@ export default function  MyCart( props ) {
            
         let arr =[]; 
         const listItems = props.MyCart.map((pizza) => { 
-        arr =[]; 
-             Object.keys( pizza.fillings).forEach((key,index)=>{   
-               if(pizza.fillings[key] === 1) 
+        arr =[]; //empty array so prev order fillings don't render
+             Object.keys( pizza.fillings).forEach((key)=>{   
+               if(pizza.fillings[key] === 1) //means that fillin is added 
                   {
                       arr.push(key)
                     }      
@@ -32,7 +32,7 @@ export default function  MyCart( props ) {
 
             <Card   >
             <CardActionArea>
-           <CardMedia
+            <CardMedia
              
              image={props.img}
              title="Pizza"
