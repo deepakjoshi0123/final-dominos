@@ -8,31 +8,32 @@ import classes from '../PizzaList/pizzaList.css'
 
 // for filling the same order 
 
-let comp={
+let comp={  // to compare new order to orders in cart if similar add to exisiting order 
     extraCheese: 0,
     ExtraOnion : 0,
     ExtraTomato : 0 ,
     Morzilla : 0
 
 }
-
-let Filling ={
-    extraCheese: 0,
+ 
+let Filling ={     // fillings to keep track which one  is selected 
+    extraCheese: 0,  
     ExtraOnion : 0,
     ExtraTomato : 0 ,
     Morzilla : 0
 } 
 
+
 let PizzaId=1;
 let size ='large';
-const INGREDIENT_PRICES = {
+const INGREDIENT_PRICES = {  //pizza prices 
     onion: 75,
     cheese: 95,
     mixVeg: 110,
     Tomato: 80,
 };
 
-const ExtraFillings = {
+const ExtraFillings = {  // price of extra fillings 
     extraCheese: 50,
     ExtraOnion : 20,
     ExtraTomato :25 ,
@@ -65,7 +66,6 @@ class PizzaList extends Component {
 pizzaSize = (pizzaType,event)=>
     {
         size = event.target.value;
-     
     }
 
  //store fillings user want to add   
@@ -76,19 +76,8 @@ pizzaSize = (pizzaType,event)=>
         Filling[fil]= 1 ;   // set to all 0 when modal is closed , so next time custom opens added get removed 
         comp[fil]=1;  // for checking next order is same or diff {wheather to create the new order or inc qty }
     }
-
-    updatePurchaseState = (ingredients) => {
-        const sum = Object.keys( ingredients )
-            .map( igKey => {
-                return ingredients[igKey]; 
-            } )
-            .reduce( ( sum, el ) => {
-                return sum + el;
-            }, 0 );
-        this.setState( { purchasable: sum > 0 } );
-    }
-
- 
+  
+    // used for sorting 
      compare = (a, b) => {
        
         const ordera = a.OrderId;
@@ -123,12 +112,12 @@ pizzaSize = (pizzaType,event)=>
              }
          }
          
-         console.log(updatedPrice , " price " ,INGREDIENT_PRICES[Order[0].name])
+        
          Order[0].price= Order[0].price + updatedPrice + INGREDIENT_PRICES[Order[0].name]; 
         // push order on the same location ,prefered sort
         
          updatedOrder.push(Order[0]);
-         updatedOrder.sort(this.compare);
+         updatedOrder.sort(this.compare); // O(nlogn) " splice was of O(nlogn)"
          
         //
          let newPrice = this.state.CartPrice + Order[0].price - initPrice; 
@@ -155,11 +144,9 @@ pizzaSize = (pizzaType,event)=>
          }
          
          Order[0].price =Order[0].price - updatedPrice - INGREDIENT_PRICES[Order[0].name] ; 
-         console.log(Order[0].price)
          let newPrice = Order[0].price; 
          this.setState({CartPrice:newPrice})
 
-            console.log(orderid , Order[0].qty)
         if(Order[0].qty===1)
            { 
                updatedOrder = this.state.orderCart.filter(order => order.OrderId !==orderid) ; 
@@ -171,10 +158,8 @@ pizzaSize = (pizzaType,event)=>
           {
                Order[0].qty=Order[0].qty-1; 
                upOrder.push(Order[0]);
-               console.log("Order",Order,upOrder , "hello",this.state.orderCart) ; 
                upOrder.sort(this.compare)
                this.setState({orderCart:upOrder } ) 
-               console.log(this.state.orderCart , "updated state") 
           }
     }
             
@@ -194,7 +179,7 @@ pizzaSize = (pizzaType,event)=>
               {
                   reporder[0].qty = reporder[0].qty + 1 ;
                
-                  // price 
+                  // this would be better if its function 
 
                   let updatedPrice = 0;
                   for(let key in reporder[0].fillings)
@@ -214,7 +199,7 @@ pizzaSize = (pizzaType,event)=>
                   this.setState({orderCart:real , CartPrice:ltprc})
                   return ;
               }
-             console.log("creating this order")
+          // if it's new order ..... than don't increase it's frequency 
          let order = {
              
              OrderId:0,
@@ -270,18 +255,18 @@ pizzaSize = (pizzaType,event)=>
         price=0;
         order=null;
         this.setState( {ing: updatedIngredients ,CartPrice:priceee } ); 
-        this.updatePurchaseState(updatedIngredients);    
+        
     }
  
     delItem = ( id ) => {
 
-        PizzaId=PizzaId-1;
+        PizzaId=PizzaId-1; // decrease id so in future we gets continous freqency 
         let Order = this.state.orderCart.filter(order => order.OrderId === id)
         let updatedPrice = 0;
         for(let key in Order[0].fillings)
         {
           
-            if(Order[0].fillings[key]===1)
+          if(Order[0].fillings[key]===1)
             {
               updatedPrice = updatedPrice + ExtraFillings[key];  
             }
@@ -291,11 +276,11 @@ pizzaSize = (pizzaType,event)=>
         let updatedOrder = this.state.orderCart.filter(order => order.OrderId !==id) ; 
         this.setState( { orderCart : updatedOrder , CartPrice:prc} );
     }
-
+ // used in modal 
     purchaseHandler = () => {
         this.setState({purchasing: true});
     }
-
+// used in modal closing 
     purchaseCancelHandler = () => {
         this.setState({purchasing: false});
         let stfil = {...this.state.ExtraFillings}
